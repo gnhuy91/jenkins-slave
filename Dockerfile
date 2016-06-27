@@ -35,9 +35,10 @@ RUN curl -sSL $(curl -s ${COMPOSE_URL} \
     | head -n 1 | cut -d '"' -f 4) > /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose
 
-# Set user jenkins to the image
+# Set user jenkins to the image & add the user to docker group
 RUN useradd -m -d /home/jenkins -s /bin/sh jenkins &&\
-    echo "jenkins:jenkins" | chpasswd
+    echo "jenkins:jenkins" | chpasswd &&\
+    usermod -aG docker jenkins
 
 # Standard SSH port
 EXPOSE 22
